@@ -7,8 +7,11 @@ import br.com.spotifyjvcw.gateway.entity.TrackEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Component
 @RequiredArgsConstructor
@@ -18,17 +21,26 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
 
     @Override
     public List<Track> entityToDomain(List<TrackEntity> trackEntities) {
+        if(isNull(trackEntities))
+            return new ArrayList<>();
+
         return trackEntities.stream().map(this::entityToDomain).collect(Collectors.toList());
     }
 
     @Override
     public List<TrackEntity> domainToEntity(List<Track> trackDomains) {
+        if(isNull(trackDomains))
+            return new ArrayList<>();
+
         return trackDomains.stream().map(this::domainToEntity).collect(Collectors.toList());
     }
 
 
     @Override
     public Track entityToDomain(TrackEntity trackEntity) {
+        if(isNull(trackEntity))
+            return null;
+
         return Track.builder()
                 .date(trackEntity.getDate())
                 .tracksLong(toArray(trackEntity.getTracksLong()))
@@ -40,6 +52,9 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
 
     @Override
     public TrackEntity domainToEntity(Track trackDomain) {
+        if(isNull(trackDomain))
+            return null;
+
         return TrackEntity.builder()
                 .date(trackDomain.getDate())
                 .tracksLong(toString(trackDomain.getTracksLong()))
