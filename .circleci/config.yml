@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   heroku: circleci/heroku@1.2.6
 
-
 jobs:
   build-and-test:
     docker:
@@ -17,11 +16,10 @@ jobs:
           name: Test
           command: mvn test
 
-
 workflows:
   sample:
     jobs:
       - build-and-test
   #heroku_deploy:
     #jobs:
-      #- heroku/deploy-via-git
+      #- heroku/deploy-via-git:
