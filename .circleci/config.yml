@@ -30,7 +30,4 @@ workflows:
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git:
-          requires:
-            - build-and-test
-          branches:
-            only: /^release/*/
+          branch: /^release/*/
