@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   heroku: circleci/heroku@1.2.6
-
+  coveralls: coveralls/coveralls@1.0.6
 
 jobs:
   build-and-test:
@@ -16,12 +16,21 @@ jobs:
       - run:
           name: Test
           command: mvn test
-
+  coverage-status:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - coveralls/upload
 
 workflows:
   sample:
     jobs:
       - build-and-test
-  #heroku_deploy:
-    #jobs:
-      #- heroku/deploy-via-git
+      - coverage-status
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git:
+          requires:
+            - build-and-test
+          branches:
+            only: /^release/*/
