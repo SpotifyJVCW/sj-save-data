@@ -16,17 +16,11 @@ jobs:
       - run:
           name: Test
           command: mvn test
-  coverage-status:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - coveralls/upload
 
 workflows:
   sample:
     jobs:
       - build-and-test
-      - coverage-status
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git:
