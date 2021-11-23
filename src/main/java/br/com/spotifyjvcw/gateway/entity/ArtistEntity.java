@@ -1,13 +1,9 @@
 package br.com.spotifyjvcw.gateway.entity;
 
+import br.com.spotifyjvcw.gateway.entity.ids.ArtistId;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.io.Serializable;
-import java.time.LocalDate;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -15,12 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ArtistEntity implements Serializable {
+public class ArtistEntity  {
 
-    private static final long SEARIAL_VERSION_ID = 1L;
-
-    @Id
-    private LocalDate date;
+    @EmbeddedId
+    private ArtistId artistId;
 
     @Column(length = 2000)
     private String artistsLong;
@@ -28,7 +22,4 @@ public class ArtistEntity implements Serializable {
     private String artistsMedium;
     @Column(length = 2000)
     private String artistsShort;
-
-    @ManyToOne
-    private TokenEntity tokenEntity;
 }

@@ -4,6 +4,7 @@ import br.com.spotifyjvcw.domain.Track;
 import br.com.spotifyjvcw.gateway.converter.TokenEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.converter.TrackEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.entity.TrackEntity;
+import br.com.spotifyjvcw.gateway.entity.ids.TrackId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +43,12 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
             return null;
 
         return Track.builder()
-                .date(trackEntity.getDate())
+                .date(trackEntity.getTrackId().getDate())
                 .tracksLong(toArray(trackEntity.getTracksLong()))
                 .tracksMedium(toArray(trackEntity.getTracksMedium()))
                 .tracksShort(toArray(trackEntity.getTracksShort()))
                 .token(tokenEntityDomainConverter
-                        .entityToDomain(trackEntity.getTokenEntity())).build();
+                        .entityToDomain(trackEntity.getTrackId().getTokenEntity())).build();
     }
 
     @Override
@@ -56,12 +57,13 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
             return null;
 
         return TrackEntity.builder()
-                .date(trackDomain.getDate())
                 .tracksLong(toString(trackDomain.getTracksLong()))
                 .tracksMedium(toString(trackDomain.getTracksMedium()))
                 .tracksShort(toString(trackDomain.getTracksShort()))
-                .tokenEntity(tokenEntityDomainConverter
-                        .domainToEntity(trackDomain.getToken())).build();
+                .trackId(TrackId.builder()
+                        .date(trackDomain.getDate())
+                        .tokenEntity(tokenEntityDomainConverter
+                                .domainToEntity(trackDomain.getToken())).build()).build();
     }
 
     private String[] toArray(String string){

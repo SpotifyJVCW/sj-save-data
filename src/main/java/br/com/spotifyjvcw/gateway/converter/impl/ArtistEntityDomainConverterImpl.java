@@ -4,6 +4,7 @@ import br.com.spotifyjvcw.domain.Artist;
 import br.com.spotifyjvcw.gateway.converter.TokenEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.converter.ArtistEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.entity.ArtistEntity;
+import br.com.spotifyjvcw.gateway.entity.ids.ArtistId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +43,12 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
             return null;
 
         return Artist.builder()
-                .date(artistEntity.getDate())
+                .date(artistEntity.getArtistId().getDate())
                 .artistsLong(toArray(artistEntity.getArtistsLong()))
                 .artistsMedium(toArray(artistEntity.getArtistsMedium()))
                 .artistsShort(toArray(artistEntity.getArtistsShort()))
                 .token(tokenEntityDomainConverter
-                        .entityToDomain(artistEntity.getTokenEntity())).build();
+                        .entityToDomain(artistEntity.getArtistId().getTokenEntity())).build();
     }
 
     @Override
@@ -56,12 +57,13 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
             return null;
 
         return ArtistEntity.builder()
-                .date(artistDomain.getDate())
                 .artistsLong(toString(artistDomain.getArtistsLong()))
                 .artistsMedium(toString(artistDomain.getArtistsMedium()))
                 .artistsShort(toString(artistDomain.getArtistsShort()))
-                .tokenEntity(tokenEntityDomainConverter
-                        .domainToEntity(artistDomain.getToken())).build();
+                .artistId(ArtistId.builder()
+                        .date(artistDomain.getDate())
+                        .tokenEntity(tokenEntityDomainConverter
+                                .domainToEntity(artistDomain.getToken())).build()).build();
     }
 
     private String[] toArray(String string){
