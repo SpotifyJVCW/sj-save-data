@@ -67,7 +67,7 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
     }
 
     private String[] toArray(String string){
-        return ";".split(string);
+        return string.split(";");
     }
 
     private String toString(String[] array){
