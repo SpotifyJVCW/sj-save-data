@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: test
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  app:
+    version: '@project.version@'
+    name: '@project.name@'
+    encoding: '@project.build.sourceEncoding@'
+    java:
+      version: '@java.version@'
+    description: '@project.description@'
