@@ -24,17 +24,18 @@ public class TokenInteractionsWithDBImpl implements TokenInteractionsWithDB {
 
     @Override
     public Token getTokenByClientId(String clientId) {
+        Token token;
         try {
-            Token token = tokenDBGateway.getTokenByClientId(clientId);
-
-            if(isNull(token))
-                throw new NotFoundException("Token não encontrado!");
-            return token;
+            token = tokenDBGateway.getTokenByClientId(clientId);
         }
         catch (Exception e){
             log.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage(), e.getCause());
         }
+
+        if(isNull(token))
+            throw new NotFoundException("Token não encontrado!");
+        return token;
     }
 
     @Override
