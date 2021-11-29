@@ -1,6 +1,7 @@
 package br.com.spotifyjvcw.usecase.impl;
 
 import br.com.spotifyjvcw.domain.Token;
+import br.com.spotifyjvcw.exception.especific.ClientAlreadyExistsException;
 import br.com.spotifyjvcw.exception.especific.InternalServerErrorException;
 import br.com.spotifyjvcw.exception.especific.NotFoundException;
 import br.com.spotifyjvcw.gateway.TokenDBGateway;
@@ -47,6 +48,8 @@ public class TokenInteractionsWithDBImpl implements TokenInteractionsWithDB {
 
     @Override
     public String saveNewClientId(TokenRequest tokenRequest) {
+        if(!isNull(tokenDBGateway.getTokenByClientId(tokenRequest.getClientId())))
+            throw new ClientAlreadyExistsException("ClientId " + tokenRequest.getClientId() + " já cadastrado");
         try {
             return tokenDBGateway.saveClientId(tokenRequestToTokenDomainConverter
                     .exeute(tokenRequest)).getClientId();

@@ -19,6 +19,7 @@ public class TokenDomainToResponseConverterImpl implements TokenDomainToResponse
     public TokenResponse execute(Token token) {
         return TokenResponse.builder()
                 .accessToken(token.getAccessToken())
+                .clientId(token.getClientId())
                 .refreshToken(token.getRefreshToken())
                 .build();
     }

@@ -3,6 +3,7 @@ package br.com.spotifyjvcw.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.spotifyjvcw.exception.especific.ClientAlreadyExistsException;
 import br.com.spotifyjvcw.exception.especific.InternalServerErrorException;
 import br.com.spotifyjvcw.exception.especific.NotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -54,6 +55,17 @@ public class EventExceptionHandler extends ResponseEntityExceptionHandler{
         List<Error> errors = List.of(new Error(userMessage, devMessage));
 
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler({ClientAlreadyExistsException.class})
+    public ResponseEntity<Object> handleClientAlreadyExistsException(ClientAlreadyExistsException ex,
+                                                          WebRequest request) {
+
+        String userMessage = ex.getMessage();
+        String devMessage = ex.getMessage();
+        List<Error> errors = List.of(new Error(userMessage, devMessage));
+
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
     @ExceptionHandler({InternalServerErrorException.class})
