@@ -78,9 +78,9 @@ class ArtistEndpointTest extends ApplicationTests {
         verify(artistDomainToArtistResponseConverter, times(1)).execute(Mockito.any(Artist.class));
     }
 
-    @DisplayName("dado um clientId e uma data válida, " +
-            "quando chamado o endpoint de getArtistByDate, " +
-            "então é retornado status 200")
+    @DisplayName("dado um clientId e uma data inválidas, " +
+                 "quando chamado o endpoint de getArtistByDate, " +
+                 "então é retornado status 400")
     @ParameterizedTest
     @CsvSource({
             "clientId inválido,     /artists/ /2021-11-24",

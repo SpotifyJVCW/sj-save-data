@@ -1,8 +1,10 @@
 package br.com.spotifyjvcw;
 
 import br.com.spotifyjvcw.host.converter.ArtistDomainToArtistResponseConverter;
+import br.com.spotifyjvcw.host.converter.TokenDomainToResponseConverter;
 import br.com.spotifyjvcw.host.converter.TrackDomainToTrackResponseConverter;
 import br.com.spotifyjvcw.usecase.ArtistInteractionsWithDB;
+import br.com.spotifyjvcw.usecase.TokenInteractionsWithDB;
 import br.com.spotifyjvcw.usecase.TrackInteractionsWithDB;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +30,12 @@ public class ApplicationTests {
 
     @MockBean
     public TrackDomainToTrackResponseConverter trackDomainToTrackResponseConverter;
+
+    @MockBean
+    public TokenInteractionsWithDB tokenInteractionsWithDB;
+
+    @MockBean
+    public TokenDomainToResponseConverter tokenDomainToResponseConverter;
 
     @Test
     void contextLoads(){
