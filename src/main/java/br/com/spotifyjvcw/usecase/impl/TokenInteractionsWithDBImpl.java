@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import static java.util.Objects.isNull;
 
 @Component
@@ -21,6 +23,11 @@ public class TokenInteractionsWithDBImpl implements TokenInteractionsWithDB {
 
     private final TokenDBGateway tokenDBGateway;
     private final TokenRequestToTokenDomainConverter tokenRequestToTokenDomainConverter;
+
+    @Override
+    public List<Token> getAllTokens() {
+        return tokenDBGateway.getAll();
+    }
 
     @Override
     public Token getTokenByClientId(String clientId) {

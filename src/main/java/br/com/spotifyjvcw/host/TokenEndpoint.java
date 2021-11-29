@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @RestController
@@ -31,6 +32,23 @@ public class TokenEndpoint {
 
     private final TokenInteractionsWithDB tokenInteractionsWithDB;
     private final TokenDomainToResponseConverter tokenDomainToResponseConverter;
+
+
+    @Operation(tags = "Token", description = "Traz todos os TokenResponses da base", responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content( mediaType = "application/json",
+                    array = @ArraySchema( schema = @Schema(implementation = TokenResponse.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid Request", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventExceptionHandler.Error.class))),
+            @ApiResponse(responseCode = "404", description = "Page not found", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventExceptionHandler.Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventExceptionHandler.Error.class)))
+    })
+    @GetMapping
+    public List<TokenResponse> getAllTokens(){
+        return tokenDomainToResponseConverter.execute(tokenInteractionsWithDB.getAllTokens());
+    }
+
 
     @Operation(tags = "Token", description = "Traz um object TokenResponse a partir de clientId", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = @Content( mediaType = "application/json",

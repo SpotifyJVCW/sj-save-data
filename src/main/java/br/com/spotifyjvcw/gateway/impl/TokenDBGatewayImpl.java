@@ -8,6 +8,7 @@ import br.com.spotifyjvcw.gateway.repository.TokenReposiory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -39,5 +40,10 @@ public class TokenDBGatewayImpl implements TokenDBGateway {
         tokenReposiory.save(TokenEntity.builder()
                     .refreshToken(refresToken)
                     .clientId(clientId).build());
+    }
+
+    @Override
+    public List<Token> getAll() {
+        return entityDomainConverter.entityToDomain(tokenReposiory.findAll());
     }
 }

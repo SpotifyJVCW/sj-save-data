@@ -73,7 +73,7 @@ class TokenEntityDomainConverterTest {
     @Test
     void test4(){
 
-        Token token = converter.entityToDomain(null);
+        Token token = converter.entityToDomain((TokenEntity) null);
 
         assertNull(token);
     }
