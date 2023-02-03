@@ -2,10 +2,6 @@ spring:
   profiles:
     active: ${ENVIRONMENT}
 
-logging:
-  level:
-    root: TRACE
-
 management:
   endpoints:
     web:
