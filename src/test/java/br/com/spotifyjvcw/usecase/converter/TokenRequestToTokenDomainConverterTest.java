@@ -1,18 +1,11 @@
 package br.com.spotifyjvcw.usecase.converter;
 
 import br.com.spotifyjvcw.domain.Token;
-import br.com.spotifyjvcw.domain.Track;
 import br.com.spotifyjvcw.host.data.request.TokenRequest;
-import br.com.spotifyjvcw.host.data.request.TrackRequest;
 import br.com.spotifyjvcw.usecase.converter.impl.TokenRequestToTokenDomainConverterImpl;
-import br.com.spotifyjvcw.usecase.converter.impl.TrackRequestToTrackDomainConverterImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

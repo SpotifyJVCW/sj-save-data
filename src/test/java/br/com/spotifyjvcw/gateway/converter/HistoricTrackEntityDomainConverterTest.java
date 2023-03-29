@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.gateway.converter;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.domain.Token;
 import br.com.spotifyjvcw.gateway.converter.impl.TrackEntityDomainConverterImpl;
 import br.com.spotifyjvcw.gateway.converter.impl.TokenEntityDomainConverterImpl;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-class TrackEntityDomainConverterTest {
+class HistoricTrackEntityDomainConverterTest {
 
     TrackEntityDomainConverter converter;
 
@@ -53,19 +53,19 @@ class TrackEntityDomainConverterTest {
                         .date(LocalDate.now())
                         .tokenEntity(tokenEntity).build()).build());
 
-        List<Track> tracks = converter.entityToDomain(trackEntities);
+        List<HistoricTrack> historicTracks = converter.entityToDomain(trackEntities);
 
         verify(tokenEntityDomainConverter, times(1)).entityToDomain(tokenEntity);
-        assertNotNull(tracks);
+        assertNotNull(historicTracks);
 
-        assertEquals("testeLong1", tracks.get(0).getTracksLong()[0]);
-        assertEquals("testeLong2", tracks.get(0).getTracksLong()[1]);
+        assertEquals("testeLong1", historicTracks.get(0).getTracksLong()[0]);
+        assertEquals("testeLong2", historicTracks.get(0).getTracksLong()[1]);
 
-        assertEquals("testeMedium1", tracks.get(0).getTracksMedium()[0]);
-        assertEquals("testeMedium2", tracks.get(0).getTracksMedium()[1]);
+        assertEquals("testeMedium1", historicTracks.get(0).getTracksMedium()[0]);
+        assertEquals("testeMedium2", historicTracks.get(0).getTracksMedium()[1]);
 
-        assertEquals("testeShort1", tracks.get(0).getTracksShort()[0]);
-        assertEquals("testeShort2", tracks.get(0).getTracksShort()[1]);
+        assertEquals("testeShort1", historicTracks.get(0).getTracksShort()[0]);
+        assertEquals("testeShort2", historicTracks.get(0).getTracksShort()[1]);
     }
 
     @DisplayName("dado uma lista de Track " +
@@ -77,15 +77,15 @@ class TrackEntityDomainConverterTest {
 
         Token token = new Token();
 
-        List<Track> tracks = new ArrayList<>();
-        tracks.add(Track.builder()
+        List<HistoricTrack> historicTracks = new ArrayList<>();
+        historicTracks.add(HistoricTrack.builder()
                 .tracksLong(new String[]{ "testeLong1","testeLong2"})
                 .tracksMedium(new String[]{ "testeMedium1","testeMedium2"})
                 .tracksShort(new String[]{ "testeShort1","testeShort2"})
                 .date(LocalDate.now())
                 .token(token).build());
 
-        List<TrackEntity> tracksEntity = converter.domainToEntity(tracks);
+        List<TrackEntity> tracksEntity = converter.domainToEntity(historicTracks);
 
         verify(tokenEntityDomainConverter, times(1)).domainToEntity(token);
 
@@ -101,8 +101,8 @@ class TrackEntityDomainConverterTest {
             "então deve ser retornado nulo")
     @Test
     void test3(){
-        List<TrackEntity> trackEntities = converter.domainToEntity((List<Track>) null);
-        TrackEntity trackEntity = converter.domainToEntity((Track) null);
+        List<TrackEntity> trackEntities = converter.domainToEntity((List<HistoricTrack>) null);
+        TrackEntity trackEntity = converter.domainToEntity((HistoricTrack) null);
 
         assertTrue(trackEntities.isEmpty());
         assertNull(trackEntity);
@@ -113,10 +113,10 @@ class TrackEntityDomainConverterTest {
             "então deve ser retornado nulo")
     @Test
     void test4(){
-        List<Track> tracks = converter.entityToDomain((List<TrackEntity>) null);
-        Track track = converter.entityToDomain((TrackEntity) null);
+        List<HistoricTrack> historicTracks = converter.entityToDomain((List<TrackEntity>) null);
+        HistoricTrack historicTrack = converter.entityToDomain((TrackEntity) null);
 
-        assertTrue(tracks.isEmpty());
-        assertNull(track);
+        assertTrue(historicTracks.isEmpty());
+        assertNull(historicTrack);
     }
 }

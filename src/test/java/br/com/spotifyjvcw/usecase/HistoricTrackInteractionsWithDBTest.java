@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.usecase;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.exception.especific.InternalServerErrorException;
 import br.com.spotifyjvcw.exception.especific.NotFoundException;
 import br.com.spotifyjvcw.gateway.TrackDBGateway;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-class TrackInteractionsWithDBTest {
+class HistoricTrackInteractionsWithDBTest {
 
     TrackInteractionsWithDB usecase;
 
@@ -44,12 +44,12 @@ class TrackInteractionsWithDBTest {
     @Test
     void test1(){
         when(trackDBGateway.getTrackByDateAndClientId(Mockito.any(LocalDate.class), Mockito.anyString()))
-                .thenReturn(new Track());
+                .thenReturn(new HistoricTrack());
 
-        Track track = usecase.getByDate(LocalDate.now(), "teste");
+        HistoricTrack historicTrack = usecase.getByDate(LocalDate.now(), "teste");
 
         verify(trackDBGateway, times(1)).getTrackByDateAndClientId(LocalDate.now(), "teste");
-        assertNotNull(track);
+        assertNotNull(historicTrack);
     }
 
     @DisplayName("quando chamado metodo getAll " +
@@ -58,10 +58,10 @@ class TrackInteractionsWithDBTest {
     void test2(){
         when(trackDBGateway.getAllTracks()).thenReturn(new ArrayList<>());
 
-        List<Track> tracks = usecase.getAll();
+        List<HistoricTrack> historicTracks = usecase.getAll();
 
         verify(trackDBGateway, times(1)).getAllTracks();
-        assertNotNull(tracks);
+        assertNotNull(historicTracks);
     }
 
     @DisplayName("dado uma data e um clientId " +

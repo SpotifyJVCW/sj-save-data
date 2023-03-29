@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.host.converter;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.host.converter.impl.ArtistDomainToArtistResponseConverterImpl;
 import br.com.spotifyjvcw.host.data.response.ArtistResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArtistDomainToArtistResponseConverterTest {
+class ArtistDomainToHistoricArtistResponseConverterTest {
 
     ArtistDomainToArtistResponseConverter converter;
 
@@ -27,14 +27,14 @@ class ArtistDomainToArtistResponseConverterTest {
                  "então deve ser retornado uma Lista de ArtistResponse")
     @Test
     void test1(){
-        List<Artist> artists = new ArrayList<>();
-        artists.add(Artist.builder()
+        List<HistoricArtist> historicArtists = new ArrayList<>();
+        historicArtists.add(HistoricArtist.builder()
                 .artistsLong(new String[]{"testeLong"})
                 .artistsMedium(new String[]{"testeMedium"})
                 .artistsShort(new String[]{"testeShort"})
                 .date(LocalDate.now()).build());
 
-        List<ArtistResponse> artistsResponse = converter.execute(artists);
+        List<ArtistResponse> artistsResponse = converter.execute(historicArtists);
 
         assertNotNull(artistsResponse);
         assertEquals("testeLong", artistsResponse.get(0).getArtistsLong()[0]);

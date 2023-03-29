@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.gateway.converter.impl;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.gateway.converter.TokenEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.converter.ArtistEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.entity.ArtistEntity;
@@ -21,7 +21,7 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
     private final TokenEntityDomainConverter tokenEntityDomainConverter;
 
     @Override
-    public List<Artist> entityToDomain(List<ArtistEntity> artistEntities) {
+    public List<HistoricArtist> entityToDomain(List<ArtistEntity> artistEntities) {
         if(isNull(artistEntities))
             return new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
     }
 
     @Override
-    public List<ArtistEntity> domainToEntity(List<Artist> artistsDomains) {
+    public List<ArtistEntity> domainToEntity(List<HistoricArtist> artistsDomains) {
         if(isNull(artistsDomains))
             return new ArrayList<>();
 
@@ -38,11 +38,11 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
 
 
     @Override
-    public Artist entityToDomain(ArtistEntity artistEntity) {
+    public HistoricArtist entityToDomain(ArtistEntity artistEntity) {
         if(isNull(artistEntity))
             return null;
 
-        return Artist.builder()
+        return HistoricArtist.builder()
                 .date(artistEntity.getArtistId().getDate())
                 .artistsLong(toArray(artistEntity.getArtistsLong()))
                 .artistsMedium(toArray(artistEntity.getArtistsMedium()))
@@ -52,18 +52,18 @@ public class ArtistEntityDomainConverterImpl implements ArtistEntityDomainConver
     }
 
     @Override
-    public ArtistEntity domainToEntity(Artist artistDomain) {
-        if(isNull(artistDomain))
+    public ArtistEntity domainToEntity(HistoricArtist historicArtistDomain) {
+        if(isNull(historicArtistDomain))
             return null;
 
         return ArtistEntity.builder()
-                .artistsLong(toString(artistDomain.getArtistsLong()))
-                .artistsMedium(toString(artistDomain.getArtistsMedium()))
-                .artistsShort(toString(artistDomain.getArtistsShort()))
+                .artistsLong(toString(historicArtistDomain.getArtistsLong()))
+                .artistsMedium(toString(historicArtistDomain.getArtistsMedium()))
+                .artistsShort(toString(historicArtistDomain.getArtistsShort()))
                 .artistId(ArtistId.builder()
-                        .date(artistDomain.getDate())
+                        .date(historicArtistDomain.getDate())
                         .tokenEntity(tokenEntityDomainConverter
-                                .domainToEntity(artistDomain.getToken())).build()).build();
+                                .domainToEntity(historicArtistDomain.getToken())).build()).build();
     }
 
     private String[] toArray(String string){

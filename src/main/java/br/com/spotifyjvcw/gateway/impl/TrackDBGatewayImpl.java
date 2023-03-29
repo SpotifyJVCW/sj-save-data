@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.gateway.impl;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.gateway.TrackDBGateway;
 import br.com.spotifyjvcw.gateway.converter.TrackEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.repository.TrackRepository;
@@ -18,18 +18,18 @@ public class TrackDBGatewayImpl implements TrackDBGateway {
     private final TrackEntityDomainConverter entityDomainConverter;
 
     @Override
-    public List<Track> getAllTracks() {
+    public List<HistoricTrack> getAllTracks() {
         return entityDomainConverter.entityToDomain(trackRepository.findAll());
     }
 
     @Override
-    public Track getTrackByDateAndClientId(LocalDate date, String clientId) {
+    public HistoricTrack getTrackByDateAndClientId(LocalDate date, String clientId) {
         return entityDomainConverter.entityToDomain(
                 trackRepository.findTrackByClientIdAndDate(clientId, date));
     }
 
     @Override
-    public void saveAllTracks(List<Track> tracks) {
-        trackRepository.saveAll(entityDomainConverter.domainToEntity(tracks));
+    public void saveAllTracks(List<HistoricTrack> historicTracks) {
+        trackRepository.saveAll(entityDomainConverter.domainToEntity(historicTracks));
     }
 }

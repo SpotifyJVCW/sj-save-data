@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.gateway;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.gateway.converter.impl.ArtistEntityDomainConverterImpl;
 import br.com.spotifyjvcw.gateway.entity.ArtistEntity;
 import br.com.spotifyjvcw.gateway.impl.ArtistDBGatewayImpl;
@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ArtistDBGatewayTest {
+class HistoricArtistDBGatewayTest {
 
     ArtistDBGateway gateway;
 
@@ -42,11 +42,11 @@ class ArtistDBGatewayTest {
         when(artistRepository.findAll()).thenReturn(new ArrayList<>());
         when(artistEntityDomainConverter.entityToDomain(Mockito.anyList())).thenCallRealMethod();
 
-        List<Artist> artists = gateway.getAllArtists();
+        List<HistoricArtist> historicArtists = gateway.getAllArtists();
 
         verify(artistRepository, times(1)).findAll();
         verify(artistEntityDomainConverter, times(1)).entityToDomain(Mockito.anyList());
-        assertNotNull(artists);
+        assertNotNull(historicArtists);
     }
 
     @DisplayName("dado uma data e um clientId " +
@@ -56,9 +56,9 @@ class ArtistDBGatewayTest {
     void test2(){
         when(artistRepository.findArtistByClientIdAndDate(Mockito.anyString(),
                 Mockito.any(LocalDate.class))).thenReturn(new ArtistEntity());
-        when(artistEntityDomainConverter.entityToDomain(Mockito.any(ArtistEntity.class))).thenReturn(new Artist());
+        when(artistEntityDomainConverter.entityToDomain(Mockito.any(ArtistEntity.class))).thenReturn(new HistoricArtist());
 
-        Artist artist = gateway.getArtistByDateAndClientId(LocalDate.now(), "teste");
+        HistoricArtist historicArtist = gateway.getArtistByDateAndClientId(LocalDate.now(), "teste");
 
         verify(artistRepository, times(1))
                 .findArtistByClientIdAndDate("teste", LocalDate.now());
@@ -66,7 +66,7 @@ class ArtistDBGatewayTest {
         verify(artistEntityDomainConverter, times(1))
                 .entityToDomain(Mockito.any(ArtistEntity.class));
 
-        assertNotNull(artist);
+        assertNotNull(historicArtist);
     }
 
 
@@ -76,7 +76,7 @@ class ArtistDBGatewayTest {
     @Test
     void test3(){
         when(artistRepository.saveAll(Mockito.anyList())).thenReturn(null);
-        when(artistEntityDomainConverter.domainToEntity(Mockito.any(Artist.class))).thenReturn(new ArtistEntity());
+        when(artistEntityDomainConverter.domainToEntity(Mockito.any(HistoricArtist.class))).thenReturn(new ArtistEntity());
 
         gateway.saveAllArtists(new ArrayList<>());
 

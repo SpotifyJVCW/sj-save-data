@@ -2,8 +2,6 @@ package br.com.spotifyjvcw.domain;
 
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -11,11 +9,9 @@ import java.time.LocalDate;
 @Builder
 public class Track {
 
-    private LocalDate date;
-
-    private String[] tracksLong;
-    private String[] tracksMedium;
-    private String[] tracksShort;
-
-    private Token token;
+    private String id;
+    private String name;
+    private Integer lastPosition;
+    private Integer newPosition;
+    private Artist artist;
 }

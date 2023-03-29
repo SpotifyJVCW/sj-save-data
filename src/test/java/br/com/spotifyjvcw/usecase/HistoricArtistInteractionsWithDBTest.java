@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.usecase;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.exception.especific.InternalServerErrorException;
 import br.com.spotifyjvcw.exception.especific.NotFoundException;
 import br.com.spotifyjvcw.gateway.ArtistDBGateway;
@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ArtistInteractionsWithDBTest {
+class HistoricArtistInteractionsWithDBTest {
 
     ArtistInteractionsWithDB usecase;
 
@@ -43,12 +43,12 @@ class ArtistInteractionsWithDBTest {
     @Test
     void test1(){
         when(artistDBGateway.getArtistByDateAndClientId(Mockito.any(LocalDate.class), Mockito.anyString()))
-                .thenReturn(new Artist());
+                .thenReturn(new HistoricArtist());
 
-        Artist artist = usecase.getByDate(LocalDate.now(), "teste");
+        HistoricArtist historicArtist = usecase.getByDate(LocalDate.now(), "teste");
 
         verify(artistDBGateway, times(1)).getArtistByDateAndClientId(LocalDate.now(), "teste");
-        assertNotNull(artist);
+        assertNotNull(historicArtist);
     }
 
     @DisplayName("quando chamado metodo getAll " +
@@ -57,10 +57,10 @@ class ArtistInteractionsWithDBTest {
     void test2(){
         when(artistDBGateway.getAllArtists()).thenReturn(new ArrayList<>());
 
-        List<Artist> artists = usecase.getAll();
+        List<HistoricArtist> historicArtists = usecase.getAll();
 
         verify(artistDBGateway, times(1)).getAllArtists();
-        assertNotNull(artists);
+        assertNotNull(historicArtists);
     }
 
     @DisplayName("dado uma data e um clientId " +

@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.usecase.impl;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.exception.especific.InternalServerErrorException;
 import br.com.spotifyjvcw.exception.especific.NotFoundException;
 import br.com.spotifyjvcw.gateway.TrackDBGateway;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -27,26 +26,26 @@ public class TrackInteractionsWithDBImpl implements TrackInteractionsWithDB {
 
 
     @Override
-    public List<Track> getAll() {
+    public List<HistoricTrack> getAll() {
         return trackDBGateway.getAllTracks();
     }
 
     @Override
-    public Track getByDate(LocalDate date, String clientId) {
-        Track track;
+    public HistoricTrack getByDate(LocalDate date, String clientId) {
+        HistoricTrack historicTrack;
 
         try {
-            track = trackDBGateway.getTrackByDateAndClientId(date, clientId);
+            historicTrack = trackDBGateway.getTrackByDateAndClientId(date, clientId);
         }
         catch (Exception e){
             log.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage(), e.getCause());
         }
 
-        if (isNull(track))
+        if (isNull(historicTrack))
             throw new NotFoundException("Objeto Track não econtrado!");
 
-        return track;
+        return historicTrack;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.usecase.converter;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.host.data.request.TrackRequest;
 import br.com.spotifyjvcw.usecase.converter.impl.TrackRequestToTrackDomainConverterImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrackRequestToTrackDomainConverterTest {
+class TrackRequestToHistoricTrackDomainConverterTest {
     TrackRequestToTrackDomainConverter converter;
 
     @BeforeEach
@@ -33,12 +33,12 @@ class TrackRequestToTrackDomainConverterTest {
                 .tracksShort(new String[]{"testeShort"})
                 .date(LocalDate.now()).build());
 
-        List<Track> tracks = converter.execute(trackRequests, "testeId");
+        List<HistoricTrack> historicTracks = converter.execute(trackRequests, "testeId");
 
-        assertNotNull(tracks);
-        assertEquals("testeLong", tracks.get(0).getTracksLong()[0]);
-        assertEquals("testeMedium", tracks.get(0).getTracksMedium()[0]);
-        assertEquals("testeShort", tracks.get(0).getTracksShort()[0]);
-        assertEquals(LocalDate.now().toString(), tracks.get(0).getDate().toString());
+        assertNotNull(historicTracks);
+        assertEquals("testeLong", historicTracks.get(0).getTracksLong()[0]);
+        assertEquals("testeMedium", historicTracks.get(0).getTracksMedium()[0]);
+        assertEquals("testeShort", historicTracks.get(0).getTracksShort()[0]);
+        assertEquals(LocalDate.now().toString(), historicTracks.get(0).getDate().toString());
     }
 }

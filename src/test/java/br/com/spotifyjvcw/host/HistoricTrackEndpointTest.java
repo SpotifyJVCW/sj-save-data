@@ -1,7 +1,7 @@
 package br.com.spotifyjvcw.host;
 
 import br.com.spotifyjvcw.ApplicationTests;
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.host.data.response.TrackResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class TrackEndpointTest extends ApplicationTests {
+class HistoricTrackEndpointTest extends ApplicationTests {
     TrackEndpoint endpoint;
 
     @Autowired
@@ -61,8 +61,8 @@ class TrackEndpointTest extends ApplicationTests {
             "então é retornado status 200")
     @Test
     void test2(){
-        when(trackInteractionsWithDB.getByDate(Mockito.any(LocalDate.class), Mockito.anyString())).thenReturn(new Track());
-        when(trackDomainToTrackResponseConverter.execute(Mockito.any(Track.class))).thenReturn(new TrackResponse());
+        when(trackInteractionsWithDB.getByDate(Mockito.any(LocalDate.class), Mockito.anyString())).thenReturn(new HistoricTrack());
+        when(trackDomainToTrackResponseConverter.execute(Mockito.any(HistoricTrack.class))).thenReturn(new TrackResponse());
 
         try {
             mockMvc.perform(get("/tracks/teste/" + LocalDate.now())
@@ -74,7 +74,7 @@ class TrackEndpointTest extends ApplicationTests {
             fail();
         }
         verify(trackInteractionsWithDB, times(1)).getByDate(LocalDate.now(), "teste");
-        verify(trackDomainToTrackResponseConverter, times(1)).execute(Mockito.any(Track.class));
+        verify(trackDomainToTrackResponseConverter, times(1)).execute(Mockito.any(HistoricTrack.class));
     }
 
     @DisplayName("dado um clientId e uma data válida, " +

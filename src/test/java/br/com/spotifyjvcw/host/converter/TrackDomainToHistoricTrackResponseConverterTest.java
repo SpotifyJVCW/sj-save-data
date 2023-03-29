@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.host.converter;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.host.converter.impl.TrackDomainToTrackResponseConverterImpl;
 import br.com.spotifyjvcw.host.data.response.TrackResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrackDomainToTrackResponseConverterTest {
+class TrackDomainToHistoricTrackResponseConverterTest {
     TrackDomainToTrackResponseConverter converter;
 
     @BeforeEach
@@ -26,14 +26,14 @@ class TrackDomainToTrackResponseConverterTest {
             "então deve ser retornado uma Lista de TrackResponse")
     @Test
     void test1(){
-        List<Track> tracks = new ArrayList<>();
-        tracks.add(Track.builder()
+        List<HistoricTrack> historicTracks = new ArrayList<>();
+        historicTracks.add(HistoricTrack.builder()
                 .tracksLong(new String[]{"testeLong"})
                 .tracksMedium(new String[]{"testeMedium"})
                 .tracksShort(new String[]{"testeShort"})
                 .date(LocalDate.now()).build());
 
-        List<TrackResponse> tracksResponse = converter.execute(tracks);
+        List<TrackResponse> tracksResponse = converter.execute(historicTracks);
 
         assertNotNull(tracksResponse);
         assertEquals("testeLong", tracksResponse.get(0).getTracksLong()[0]);

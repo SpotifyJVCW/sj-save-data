@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.usecase.converter;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.host.data.request.ArtistRequest;
 import br.com.spotifyjvcw.usecase.converter.impl.ArtistRequestToArtistDomainConverterImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArtistRequestToArtistDomainConverterTest {
+class ArtistRequestToHistoricArtistDomainConverterTest {
 
     ArtistRequestToArtistDomainConverter converter;
 
@@ -34,12 +34,12 @@ class ArtistRequestToArtistDomainConverterTest {
                 .artistsShort(new String[]{"testeShort"})
                 .date(LocalDate.now()).build());
 
-        List<Artist> artists = converter.execute(artistRequests, "testeId");
+        List<HistoricArtist> historicArtists = converter.execute(artistRequests, "testeId");
 
-        assertNotNull(artists);
-        assertEquals("testeLong", artists.get(0).getArtistsLong()[0]);
-        assertEquals("testeMedium", artists.get(0).getArtistsMedium()[0]);
-        assertEquals("testeShort", artists.get(0).getArtistsShort()[0]);
-        assertEquals(LocalDate.now().toString(), artists.get(0).getDate().toString());
+        assertNotNull(historicArtists);
+        assertEquals("testeLong", historicArtists.get(0).getArtistsLong()[0]);
+        assertEquals("testeMedium", historicArtists.get(0).getArtistsMedium()[0]);
+        assertEquals("testeShort", historicArtists.get(0).getArtistsShort()[0]);
+        assertEquals(LocalDate.now().toString(), historicArtists.get(0).getDate().toString());
     }
 }

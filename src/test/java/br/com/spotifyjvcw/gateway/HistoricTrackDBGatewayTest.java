@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.gateway;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.gateway.converter.impl.TrackEntityDomainConverterImpl;
 import br.com.spotifyjvcw.gateway.entity.TrackEntity;
 import br.com.spotifyjvcw.gateway.impl.TrackDBGatewayImpl;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-class TrackDBGatewayTest {
+class HistoricTrackDBGatewayTest {
     
     TrackDBGateway gateway;
 
@@ -43,11 +43,11 @@ class TrackDBGatewayTest {
         when(trackRepository.findAll()).thenReturn(new ArrayList<>());
         when(trackEntityDomainConverter.entityToDomain(Mockito.anyList())).thenCallRealMethod();
 
-        List<Track> tracks = gateway.getAllTracks();
+        List<HistoricTrack> historicTracks = gateway.getAllTracks();
 
         verify(trackRepository, times(1)).findAll();
         verify(trackEntityDomainConverter, times(1)).entityToDomain(Mockito.anyList());
-        assertNotNull(tracks);
+        assertNotNull(historicTracks);
     }
 
     @DisplayName("dado uma data e um clientId " +
@@ -57,9 +57,9 @@ class TrackDBGatewayTest {
     void test2(){
         when(trackRepository.findTrackByClientIdAndDate(Mockito.anyString(),
                 Mockito.any(LocalDate.class))).thenReturn(new TrackEntity());
-        when(trackEntityDomainConverter.entityToDomain(Mockito.any(TrackEntity.class))).thenReturn(new Track());
+        when(trackEntityDomainConverter.entityToDomain(Mockito.any(TrackEntity.class))).thenReturn(new HistoricTrack());
 
-        Track track = gateway.getTrackByDateAndClientId(LocalDate.now(), "teste");
+        HistoricTrack historicTrack = gateway.getTrackByDateAndClientId(LocalDate.now(), "teste");
 
         verify(trackRepository, times(1))
                 .findTrackByClientIdAndDate("teste", LocalDate.now());
@@ -67,7 +67,7 @@ class TrackDBGatewayTest {
         verify(trackEntityDomainConverter, times(1))
                 .entityToDomain(Mockito.any(TrackEntity.class));
 
-        assertNotNull(track);
+        assertNotNull(historicTrack);
     }
 
 
@@ -77,7 +77,7 @@ class TrackDBGatewayTest {
     @Test
     void test3(){
         when(trackRepository.saveAll(Mockito.anyList())).thenReturn(null);
-        when(trackEntityDomainConverter.domainToEntity(Mockito.any(Track.class))).thenReturn(new TrackEntity());
+        when(trackEntityDomainConverter.domainToEntity(Mockito.any(HistoricTrack.class))).thenReturn(new TrackEntity());
 
         gateway.saveAllTracks(new ArrayList<>());
 

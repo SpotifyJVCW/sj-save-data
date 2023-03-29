@@ -2,8 +2,6 @@ package br.com.spotifyjvcw.domain;
 
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -11,11 +9,18 @@ import java.time.LocalDate;
 @Builder
 public class Artist {
 
-    private LocalDate date;
+    private String id;
+    private String name;
+    private Integer lastPosition;
+    private Integer newPosition;
 
-    private String[] artistsLong;
-    private String[] artistsMedium;
-    private String[] artistsShort;
+    public void setPositions(int newPosition, int lastPosition) {
+        this.newPosition = newPosition;
+        this.lastPosition = lastPosition;
+    }
 
-    private Token token;
+    public String generateLine() {
+        String difference = lastPosition == -1 ? "new" : (newPosition.equals(lastPosition) ? "-" : String.valueOf(lastPosition - newPosition));
+       return String.format("%d\t%s\t\t\t| %s\n", newPosition, name, difference);
+    }
 }
