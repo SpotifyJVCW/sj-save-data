@@ -29,7 +29,7 @@ public class CreateCsvImpl implements CreateCsv {
 
     @Override
     public ByteArrayResource generateArtist(TermSearch termSearch, String clientId, LocalDate csvDate) {
-        csvDate = Objects.nonNull(csvDate) ? LocalDate.now() : csvDate;
+        csvDate = Objects.nonNull(csvDate) ? csvDate : LocalDate.now();
         HistoricArtist historicArtistNormal = artistDBGateway.getArtistByDateAndClientId(csvDate, clientId);
         HistoricArtist historicArtistMinusADay = artistDBGateway.getArtistByDateAndClientId(csvDate.minusDays(1L), clientId);
 
@@ -42,7 +42,7 @@ public class CreateCsvImpl implements CreateCsv {
 
     @Override
     public ByteArrayResource generateTrack(TermSearch termSearch, String clientId, LocalDate csvDate) {
-        csvDate = Objects.nonNull(csvDate) ? LocalDate.now() : csvDate;
+        csvDate = Objects.nonNull(csvDate) ? csvDate : LocalDate.now();
         HistoricTrack historicTrackNormal = trackDBGateway.getTrackByDateAndClientId(csvDate, clientId);
         HistoricTrack historicTrackMinusADay = trackDBGateway.getTrackByDateAndClientId(csvDate.minusDays(1L), clientId);
 
