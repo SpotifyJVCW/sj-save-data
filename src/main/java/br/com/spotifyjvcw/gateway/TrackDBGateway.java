@@ -1,15 +1,15 @@
 package br.com.spotifyjvcw.gateway;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface TrackDBGateway {
 
-    List<Track> getAllTracks();
+    List<HistoricTrack> getAllTracks();
 
-    Track getTrackByDateAndClientId(LocalDate date, String clientId);
+    HistoricTrack getTrackByDateAndClientId(LocalDate date, String clientId);
 
-    void saveAllTracks(List<Track> tracks);
+    void saveAllTracks(List<HistoricTrack> historicTracks);
 }

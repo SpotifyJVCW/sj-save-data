@@ -11,3 +11,9 @@ spring:
     console:
       enabled: 'true'
       path: /h2-console
+
+refresh-data:
+  url: http://localhost:8090
+  path:
+    get-artists-ids: /artists
+    get-tracks-ids: /tracks

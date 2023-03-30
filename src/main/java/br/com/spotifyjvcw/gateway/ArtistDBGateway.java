@@ -1,15 +1,15 @@
 package br.com.spotifyjvcw.gateway;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface ArtistDBGateway {
 
-    List<Artist> getAllArtists();
+    List<HistoricArtist> getAllArtists();
 
-    Artist getArtistByDateAndClientId(LocalDate date, String clientId);
+    HistoricArtist getArtistByDateAndClientId(LocalDate date, String clientId);
 
-    void saveAllArtists(List<Artist> artists);
+    void saveAllArtists(List<HistoricArtist> historicArtists);
 }

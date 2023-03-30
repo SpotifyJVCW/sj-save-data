@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.usecase.impl;
 
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.exception.especific.InternalServerErrorException;
 import br.com.spotifyjvcw.exception.especific.NotFoundException;
 import br.com.spotifyjvcw.gateway.ArtistDBGateway;
@@ -26,26 +26,26 @@ public class ArtistInteractionsWithDBImpl implements ArtistInteractionsWithDB {
 
 
     @Override
-    public List<Artist> getAll() {
+    public List<HistoricArtist> getAll() {
         return artistDBGateway.getAllArtists();
     }
 
     @Override
-    public Artist getByDate(LocalDate date, String clientId) {
-        Artist artist;
+    public HistoricArtist getByDate(LocalDate date, String clientId) {
+        HistoricArtist historicArtist;
 
         try {
-            artist = artistDBGateway.getArtistByDateAndClientId(date, clientId);
+            historicArtist = artistDBGateway.getArtistByDateAndClientId(date, clientId);
         }
         catch (Exception e){
             log.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage(), e.getCause());
         }
 
-        if (isNull(artist))
+        if (isNull(historicArtist))
             throw new NotFoundException("Objeto Artist não econtrado!");
 
-        return artist;
+        return historicArtist;
     }
 
     @Override

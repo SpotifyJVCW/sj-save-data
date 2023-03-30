@@ -1,6 +1,6 @@
 package br.com.spotifyjvcw.gateway.converter.impl;
 
-import br.com.spotifyjvcw.domain.Track;
+import br.com.spotifyjvcw.domain.HistoricTrack;
 import br.com.spotifyjvcw.gateway.converter.TokenEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.converter.TrackEntityDomainConverter;
 import br.com.spotifyjvcw.gateway.entity.TrackEntity;
@@ -21,7 +21,7 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
     private final TokenEntityDomainConverter tokenEntityDomainConverter;
 
     @Override
-    public List<Track> entityToDomain(List<TrackEntity> trackEntities) {
+    public List<HistoricTrack> entityToDomain(List<TrackEntity> trackEntities) {
         if(isNull(trackEntities))
             return new ArrayList<>();
 
@@ -29,20 +29,20 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
     }
 
     @Override
-    public List<TrackEntity> domainToEntity(List<Track> trackDomains) {
-        if(isNull(trackDomains))
+    public List<TrackEntity> domainToEntity(List<HistoricTrack> historicTrackDomains) {
+        if(isNull(historicTrackDomains))
             return new ArrayList<>();
 
-        return trackDomains.stream().map(this::domainToEntity).collect(Collectors.toList());
+        return historicTrackDomains.stream().map(this::domainToEntity).collect(Collectors.toList());
     }
 
 
     @Override
-    public Track entityToDomain(TrackEntity trackEntity) {
+    public HistoricTrack entityToDomain(TrackEntity trackEntity) {
         if(isNull(trackEntity))
             return null;
 
-        return Track.builder()
+        return HistoricTrack.builder()
                 .date(trackEntity.getTrackId().getDate())
                 .tracksLong(toArray(trackEntity.getTracksLong()))
                 .tracksMedium(toArray(trackEntity.getTracksMedium()))
@@ -52,18 +52,18 @@ public class TrackEntityDomainConverterImpl implements TrackEntityDomainConverte
     }
 
     @Override
-    public TrackEntity domainToEntity(Track trackDomain) {
-        if(isNull(trackDomain))
+    public TrackEntity domainToEntity(HistoricTrack historicTrackDomain) {
+        if(isNull(historicTrackDomain))
             return null;
 
         return TrackEntity.builder()
-                .tracksLong(toString(trackDomain.getTracksLong()))
-                .tracksMedium(toString(trackDomain.getTracksMedium()))
-                .tracksShort(toString(trackDomain.getTracksShort()))
+                .tracksLong(toString(historicTrackDomain.getTracksLong()))
+                .tracksMedium(toString(historicTrackDomain.getTracksMedium()))
+                .tracksShort(toString(historicTrackDomain.getTracksShort()))
                 .trackId(TrackId.builder()
-                        .date(trackDomain.getDate())
+                        .date(historicTrackDomain.getDate())
                         .tokenEntity(tokenEntityDomainConverter
-                                .domainToEntity(trackDomain.getToken())).build()).build();
+                                .domainToEntity(historicTrackDomain.getToken())).build()).build();
     }
 
     private String[] toArray(String string){
