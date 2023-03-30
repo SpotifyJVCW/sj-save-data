@@ -4,6 +4,7 @@ import br.com.spotifyjvcw.host.converter.ArtistDomainToArtistResponseConverter;
 import br.com.spotifyjvcw.host.converter.TokenDomainToResponseConverter;
 import br.com.spotifyjvcw.host.converter.TrackDomainToTrackResponseConverter;
 import br.com.spotifyjvcw.usecase.ArtistInteractionsWithDB;
+import br.com.spotifyjvcw.usecase.CreateCsv;
 import br.com.spotifyjvcw.usecase.TokenInteractionsWithDB;
 import br.com.spotifyjvcw.usecase.TrackInteractionsWithDB;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,9 @@ public class ApplicationTests {
 
     @MockBean
     public TokenDomainToResponseConverter tokenDomainToResponseConverter;
+
+    @MockBean
+    public CreateCsv createCsv;
 
     @Test
     void contextLoads(){

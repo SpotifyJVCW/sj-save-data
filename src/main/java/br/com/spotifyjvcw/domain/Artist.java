@@ -1,13 +1,16 @@
 package br.com.spotifyjvcw.domain;
 
-import lombok.*;
+import br.com.spotifyjvcw.domain.contract.Position;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Artist {
+public class Artist implements Position {
 
     private String id;
     private String name;
@@ -21,6 +24,6 @@ public class Artist {
 
     public String generateLine() {
         String difference = lastPosition == -1 ? "new" : (newPosition.equals(lastPosition) ? "-" : String.valueOf(lastPosition - newPosition));
-       return String.format("%d\t%s\t\t\t| %s\n", newPosition, name, difference);
+       return String.format("%d;%s;%s\n", newPosition + 1, name, difference);
     }
 }

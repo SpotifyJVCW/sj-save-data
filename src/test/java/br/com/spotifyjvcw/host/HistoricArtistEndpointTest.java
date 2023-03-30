@@ -1,7 +1,7 @@
 package br.com.spotifyjvcw.host;
 
 import br.com.spotifyjvcw.ApplicationTests;
-import br.com.spotifyjvcw.domain.Artist;
+import br.com.spotifyjvcw.domain.HistoricArtist;
 import br.com.spotifyjvcw.host.data.response.ArtistResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ArtistEndpointTest extends ApplicationTests {
+class HistoricArtistEndpointTest extends ApplicationTests {
 
     ArtistEndpoint endpoint;
 
@@ -33,7 +33,7 @@ class ArtistEndpointTest extends ApplicationTests {
     @BeforeEach
     public void seUp(){
         MockitoAnnotations.initMocks(this);
-        endpoint = new ArtistEndpoint(artistInteractionsWithDB, artistDomainToArtistResponseConverter);
+        endpoint = new ArtistEndpoint(artistInteractionsWithDB, artistDomainToArtistResponseConverter, createCsv);
     }
 
     @DisplayName("quando chamado o endpoint de getAllArtists, " +
@@ -62,8 +62,8 @@ class ArtistEndpointTest extends ApplicationTests {
                  "então é retornado status 200")
     @Test
     void test2(){
-        when(artistInteractionsWithDB.getByDate(Mockito.any(LocalDate.class), Mockito.anyString())).thenReturn(new Artist());
-        when(artistDomainToArtistResponseConverter.execute(Mockito.any(Artist.class))).thenReturn(new ArtistResponse());
+        when(artistInteractionsWithDB.getByDate(Mockito.any(LocalDate.class), Mockito.anyString())).thenReturn(new HistoricArtist());
+        when(artistDomainToArtistResponseConverter.execute(Mockito.any(HistoricArtist.class))).thenReturn(new ArtistResponse());
 
         try {
             mockMvc.perform(get("/artists/teste/" + LocalDate.now())
@@ -75,7 +75,7 @@ class ArtistEndpointTest extends ApplicationTests {
             fail();
         }
         verify(artistInteractionsWithDB, times(1)).getByDate(LocalDate.now(), "teste");
-        verify(artistDomainToArtistResponseConverter, times(1)).execute(Mockito.any(Artist.class));
+        verify(artistDomainToArtistResponseConverter, times(1)).execute(Mockito.any(HistoricArtist.class));
     }
 
     @DisplayName("dado um clientId e uma data inválidas, " +

@@ -1,9 +1,12 @@
 package br.com.spotifyjvcw.host;
 
+import br.com.spotifyjvcw.domain.TermSearch;
 import br.com.spotifyjvcw.exception.EventExceptionHandler;
 import br.com.spotifyjvcw.host.converter.TrackDomainToTrackResponseConverter;
 import br.com.spotifyjvcw.host.data.request.TrackRequest;
+import br.com.spotifyjvcw.host.data.response.ArtistResponse;
 import br.com.spotifyjvcw.host.data.response.TrackResponse;
+import br.com.spotifyjvcw.usecase.CreateCsv;
 import br.com.spotifyjvcw.usecase.TrackInteractionsWithDB;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -11,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +26,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+import static br.com.spotifyjvcw.host.header.HeaderConstruct.constructFileResponse;
+import static java.time.format.DateTimeFormatter.ISO_DATE;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tracks")
@@ -30,6 +37,7 @@ public class TrackEndpoint {
 
     private final TrackInteractionsWithDB trackInteractionsWithDB;
     private final TrackDomainToTrackResponseConverter trackDomainToTrackResponseConverter;
+    private final CreateCsv createCsv;
 
     @Operation(tags = "Tracks", description = "Traz todos os tracks", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = @Content( mediaType = "application/json",
@@ -74,5 +82,23 @@ public class TrackEndpoint {
             @NotNull @RequestBody List<TrackRequest> tracksRequest){
         trackInteractionsWithDB.saveAll(tracksRequest, clientId);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(tags = "Tracks", description = "Cria um CSV de Tracks para um clientId em um determinado periodo", responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content( mediaType = "application/json",
+                    array = @ArraySchema( schema = @Schema(implementation = ArtistResponse.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid Request", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventExceptionHandler.Error.class))),
+            @ApiResponse(responseCode = "404", description = "Page not found", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventExceptionHandler.Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventExceptionHandler.Error.class)))
+    })
+    @PostMapping("/download-csv/{clientId}")
+    public ResponseEntity<ByteArrayResource> createCsv(@Valid
+                                                       @NotBlank @PathVariable String clientId,
+                                                       @NotNull @RequestParam TermSearch termSearch,
+                                                       @RequestParam LocalDate csvDate){
+        return constructFileResponse(String.format("%s-%s.csv", termSearch.toString(), csvDate.format(ISO_DATE)), createCsv.generateTrack(termSearch, clientId, csvDate));
     }
 }
