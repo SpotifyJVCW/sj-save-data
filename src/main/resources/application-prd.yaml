@@ -18,3 +18,13 @@ refresh-data:
 server:
   address: 0.0.0.0
   port: ${PORT:8080}
+
+mail-configuration:
+  host: smtp.gmail.com
+  port: 465
+  socketFactory: javax.net.ssl.SSLSocketFactory
+  socketFactoryPort: 465
+  auth: true
+  address: ${MAIL_CONFIGURATION_ADDRESS}
+  password: ${MAIL_CONFIGURATION_PASSWORD}
+  defaultMailSender: ${MAIL_CONFIGURATION_SENT_ADDRESS}
