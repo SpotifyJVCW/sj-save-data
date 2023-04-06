@@ -17,3 +17,13 @@ refresh-data:
   path:
     get-artists-ids: /artists
     get-tracks-ids: /tracks
+
+mail-configuration:
+  host: smtp.gmail.com
+  port: 465
+  socketFactory: javax.net.ssl.SSLSocketFactory
+  socketFactoryPort: 465
+  auth: true
+  address: TESTE
+  password: TESTE
+  defaultMailSender: TESTE
