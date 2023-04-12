@@ -4,6 +4,7 @@ public interface Position {
 
     void setPositions(int newPosition, int lastPosition);
     String generateLine();
+    String generateLineHtml(String color);
     String getId();
-    boolean isPositionChanged();
+    int isPositionChanged();
 }
