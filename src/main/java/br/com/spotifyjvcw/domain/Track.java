@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static br.com.spotifyjvcw.utils.PositionUtils.STYLE_CENTER_TEXT;
+import static br.com.spotifyjvcw.utils.PositionUtils.getColor;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,8 +31,9 @@ public class Track implements Position {
     }
 
     @Override
-    public String generateLineHtml(String color) {
-        return String.format("<tr %s><td>%s</td><td>%s</td><td>%s</td></tr>\n", color, newPosition, name, getDifference());
+    public String generateLineHtml() {
+        String difference = getDifference();
+        return String.format("<tr %s><td %s>%s</td><td>%s | %s</td><td %s>%s</td></tr>\n", getColor(difference), STYLE_CENTER_TEXT, newPosition + 1, name, artist.getName(), STYLE_CENTER_TEXT, difference);
     }
 
     private String getDifference() {
