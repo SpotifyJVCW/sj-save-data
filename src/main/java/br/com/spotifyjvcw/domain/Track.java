@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -26,12 +24,20 @@ public class Track implements Position {
     }
 
     public String generateLine() {
-        String difference = lastPosition == -1 ? "new" : (newPosition.equals(lastPosition) ? "-" : String.valueOf(lastPosition - newPosition));
-        return String.format("%d;%s;%s\n", newPosition + 1, name + "-" + artist.getName(), difference);
+        return String.format("%d;%s;%s\n", newPosition + 1, name + "-" + artist.getName(), getDifference());
     }
 
     @Override
-    public boolean isPositionChanged() {
-        return !Objects.equals(lastPosition, newPosition);
+    public String generateLineHtml(String color) {
+        return String.format("<tr %s><td>%s</td><td>%s</td><td>%s</td></tr>\n", color, newPosition, name, getDifference());
+    }
+
+    private String getDifference() {
+        return lastPosition == -1 ? "new" : (newPosition.equals(lastPosition) ? "-" : String.valueOf(lastPosition - newPosition));
+    }
+
+    @Override
+    public int isPositionChanged() {
+        return newPosition - lastPosition;
     }
 }

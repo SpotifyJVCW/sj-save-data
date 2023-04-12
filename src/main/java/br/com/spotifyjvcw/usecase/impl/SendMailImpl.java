@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static br.com.spotifyjvcw.utils.PositionUtils.generateArchive;
+import static br.com.spotifyjvcw.utils.PositionUtils.generateHtml;
 
 @Component
 @RequiredArgsConstructor
@@ -40,15 +40,15 @@ public class SendMailImpl implements SendMail {
     }
 
     private void sendMailArtist(String clientId, TermSearch termSearch, LocalDate date) {
-        sendPosition(buildPosition.buildArtist(termSearch, clientId, date), String.format(SUBJECT_ARTIST_RANKING, date.format(BRAZIL_DATE_FORMATTER), termSearch.name()));
+        sendPosition(buildPosition.buildArtist(termSearch, clientId, date), String.format(SUBJECT_ARTIST_RANKING, date.format(BRAZIL_DATE_FORMATTER), termSearch.name()), termSearch);
     }
 
     private void sendMailTrack(String clientId, TermSearch termSearch, LocalDate date) {
-        sendPosition(buildPosition.buildTrack(termSearch, clientId, date), String.format(SUBJECT_TRACK_RANKING, date.format(BRAZIL_DATE_FORMATTER), termSearch.name()));
+        sendPosition(buildPosition.buildTrack(termSearch, clientId, date), String.format(SUBJECT_TRACK_RANKING, date.format(BRAZIL_DATE_FORMATTER), termSearch.name()), termSearch);
     }
 
-    private void sendPosition(List<Position> positionosition, String subject) {
-        if (positionosition.stream().anyMatch(Position::isPositionChanged))
-            mailSenderGateway.execute(defaulMailSender, generateArchive(positionosition), subject);
+    private void sendPosition(List<Position> positionList, String subject, TermSearch termSearch) {
+        if (positionList.stream().filter(x -> x.isPositionChanged() != 0).count() > termSearch.getMinPosition())
+            mailSenderGateway.execute(defaulMailSender, generateHtml(positionList), subject);
     }
 }

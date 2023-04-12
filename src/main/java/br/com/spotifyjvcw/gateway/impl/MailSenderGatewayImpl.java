@@ -25,7 +25,8 @@ public class MailSenderGatewayImpl implements MailSenderGateway {
 
             message.setRecipient(Message.RecipientType.TO, InternetAddress.parse(addressSender)[0]);
             message.setSubject(subject);
-            message.setText(bodyMessage);
+            message.setContent(bodyMessage, "text/html");
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
 
             Transport.send(message);
             log.info("Mensagem enviada com sucesso!");
