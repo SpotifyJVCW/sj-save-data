@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static br.com.spotifyjvcw.utils.PositionUtils.generateHtml;
+import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 @Component
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class SendMailImpl implements SendMail {
 
     @Value("${mail-configuration.defaultMailSender}")
     private String defaulMailSender;
+    private String emailToSend;
     private final MailSenderGateway mailSenderGateway;
     private final BuildPosition buildPosition;
     private static final String SUBJECT_ARTIST_RANKING = "Mudança ranking de artistas dia %s | %s";
@@ -28,7 +30,9 @@ public class SendMailImpl implements SendMail {
     private static final DateTimeFormatter BRAZIL_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override
-    public void whenChangePositions(String clientId) {
+    public void whenChangePositions(String clientId, String sendEmail) {
+        emailToSend = isNotBlank(sendEmail) ? sendEmail : defaulMailSender;
+
         LocalDate now = LocalDate.now();
         sendMailArtist(clientId, TermSearch.SHORT, now);
         sendMailArtist(clientId, TermSearch.MEDIUM, now);
@@ -49,6 +53,6 @@ public class SendMailImpl implements SendMail {
 
     private void sendPosition(List<Position> positionList, String subject, TermSearch termSearch) {
         if (positionList.stream().filter(x -> x.isPositionChanged() != 0).count() > termSearch.getMinPosition())
-            mailSenderGateway.execute(defaulMailSender, generateHtml(positionList), subject);
+            mailSenderGateway.execute(emailToSend, generateHtml(positionList), subject);
     }
 }

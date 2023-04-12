@@ -5,5 +5,5 @@ import org.springframework.scheduling.annotation.Async;
 public interface SendMail {
 
     @Async
-    void whenChangePositions(String clientId);
+    void whenChangePositions(String clientId, String sendEmail);
 }
